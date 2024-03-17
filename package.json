@@ -1,0 +1,29 @@
+{
+  "name": "stargate-nischaya-tiaga",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "npx tsx index.ts",
+    "postinstall": "touch keys.txt",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Raznorabochiy",
+  "homepage": "https://t.me/cryptolaborer",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cli": "^0.11.25",
+    "@types/cli-progress": "^3.11.5",
+    "@types/node": "^20.11.28",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.17.0",
+    "cli": "^1.0.1",
+    "cli-progress": "^3.12.0",
+    "ethers": "^6.11.1",
+    "lodash": "^4.17.21",
+    "tsx": "^4.7.1"
+  }
+}
