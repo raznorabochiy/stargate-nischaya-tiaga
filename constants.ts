@@ -6,6 +6,9 @@ export const RPC_URL = {
   [Network.OPTIMISM]: "https://optimism-rpc.publicnode.com",
 };
 
+// Перемешивать ключи, чтобы запускать аккаунты в случайном порядке
+export const SHUFFLE_KEYS = false;
+
 export const DELAY_FROM_SEC = 100;
 export const DELAY_TO_SEC = 200;
 

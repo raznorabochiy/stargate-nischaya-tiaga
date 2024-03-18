@@ -1,6 +1,7 @@
 import cli from "cli";
-import random from "lodash/random";
 import maxBy from "lodash/maxBy";
+import random from "lodash/random";
+import shuffle from "lodash/shuffle";
 import { Wallet } from "ethers";
 import { bridgeETH } from "./bridge-eth";
 import {
@@ -8,11 +9,17 @@ import {
   DELAY_TO_SEC,
   FROM_NETWORK,
   KEYS_FILENAME,
+  SHUFFLE_KEYS,
   TO_NETWORK,
 } from "./constants";
 import { delayProgress, getBalance, loadFromFile } from "./utils";
 
-const keys = await loadFromFile(KEYS_FILENAME);
+let keys = await loadFromFile(KEYS_FILENAME);
+
+if (SHUFFLE_KEYS) {
+  keys = shuffle(keys);
+}
+
 const lastKey = [...keys].pop();
 
 if (FROM_NETWORK.includes(TO_NETWORK)) {
