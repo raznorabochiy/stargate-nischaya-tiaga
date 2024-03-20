@@ -2,6 +2,7 @@ import cli from "cli";
 import { Contract, formatEther, Wallet } from "ethers";
 import {
   DST_CHAIN_ID,
+  GAS_MULTIPLICATOR,
   ROUTER_ABI,
   ROUTER_ADDRESS,
   ROUTER_ETH_ABI,
@@ -58,7 +59,8 @@ export async function bridgeETH(
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await provider.getFeeData();
 
-  const gasCost = maxFeePerGas! * (gasLimit + gasLimit / 100n * 20n);
+  const gasCost = (maxFeePerGas! + maxFeePerGas! / 100n * GAS_MULTIPLICATOR) *
+    gasLimit;
   valueAndFee = valueAndFee - gasCost;
   amount = amount - gasCost;
   minAmount = amount - (amount * slippage) / 1000n;

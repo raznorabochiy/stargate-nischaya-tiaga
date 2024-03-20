@@ -6,6 +6,8 @@ export const RPC_URL = {
   [Network.OPTIMISM]: "https://optimism-rpc.publicnode.com",
 };
 
+export const GAS_MULTIPLICATOR = 40n;
+
 // Перемешивать ключи, чтобы запускать аккаунты в случайном порядке
 export const SHUFFLE_KEYS = false;
 
