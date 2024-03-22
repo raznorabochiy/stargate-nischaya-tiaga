@@ -2,13 +2,14 @@ import cli from "cli";
 import maxBy from "lodash/maxBy";
 import random from "lodash/random";
 import shuffle from "lodash/shuffle";
-import { Wallet } from "ethers";
+import { parseEther, Wallet } from "ethers";
 import { bridgeETH } from "./bridge-eth";
 import {
   DELAY_FROM_SEC,
   DELAY_TO_SEC,
   FROM_NETWORK,
   KEYS_FILENAME,
+  MIN_ETH_TO_BRIDGE,
   SHUFFLE_KEYS,
   TO_NETWORK,
 } from "./constants";
@@ -21,10 +22,6 @@ if (SHUFFLE_KEYS) {
 }
 
 const lastKey = [...keys].pop();
-
-if (FROM_NETWORK.includes(TO_NETWORK)) {
-  throw new Error("Список FROM_NETWORK не должен содержать сеть из TO_NETWORK");
-}
 
 for (const key of keys) {
   const { address } = new Wallet(key);
@@ -41,7 +38,7 @@ for (const key of keys) {
     });
 
     const filteredNativeBalance = mappedNativeBalance.filter(
-      (item) => item.balance > 0,
+      (item) => item.balance > parseEther(MIN_ETH_TO_BRIDGE.toString()),
     );
 
     if (filteredNativeBalance.length === 0) {
@@ -50,9 +47,20 @@ for (const key of keys) {
     }
 
     const max = maxBy(filteredNativeBalance, (item) => item.balance);
-    const { network, balance } = max!;
+    const { network: fromNetwork, balance } = max!;
 
-    await bridgeETH(key, network, TO_NETWORK, balance);
+    const filteredToNetworks = TO_NETWORK.filter((item) =>
+      item !== fromNetwork
+    );
+
+    if (filteredToNetworks.length === 0) {
+      console.log("Нет подходящих сетей для бриджа");
+      continue;
+    }
+
+    const [toNetwork] = shuffle(filteredToNetworks);
+
+    await bridgeETH(key, fromNetwork, toNetwork, balance);
   } catch (e) {
     cli.spinner("", true);
     console.log("Error", e.message);

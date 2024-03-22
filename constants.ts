@@ -6,22 +6,30 @@ export const RPC_URL = {
   [Network.OPTIMISM]: "https://optimism-rpc.publicnode.com",
 };
 
-export const GAS_MULTIPLICATOR = 40n;
+// Меньше этого значения бриджить не будет
+export const MIN_ETH_TO_BRIDGE = 0.0003;
+
+export const GAS_MULTIPLICATOR = 30n;
 
 // Перемешивать ключи, чтобы запускать аккаунты в случайном порядке
 export const SHUFFLE_KEYS = false;
 
-export const DELAY_FROM_SEC = 100;
-export const DELAY_TO_SEC = 200;
+export const DELAY_FROM_SEC = 300;
+export const DELAY_TO_SEC = 600;
 
 // Будет выбрана сеть с максимальным балансом из этого списка
 export const FROM_NETWORK = [
-  Network.ARBITRUM,
+  // Network.ARBITRUM,
   Network.OPTIMISM,
   // Network.BASE,
 ];
 
-export const TO_NETWORK = Network.BASE;
+// Будет выбрана сеть случайно
+export const TO_NETWORK = [
+  Network.ARBITRUM,
+  // Network.OPTIMISM,
+  Network.BASE,
+];
 
 export const KEYS_FILENAME = "keys.txt";
 
